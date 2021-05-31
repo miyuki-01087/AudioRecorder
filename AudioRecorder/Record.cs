@@ -16,6 +16,7 @@ namespace AudioRecorder
         private bool isRecording = false;
         private WasapiLoopbackCapture capture;
         private WaveOutEvent wo = new WaveOutEvent();
+
         public Record()
         {
             capture = new WasapiLoopbackCapture();
@@ -32,7 +33,6 @@ namespace AudioRecorder
                 var outputFolder = Path.Combine(folderPath);
                 var outputFilePath = Path.Combine(outputFolder, fileName + ".wav");
                 var writer = new WaveFileWriter(outputFilePath, capture.WaveFormat);
-
 
                 capture.DataAvailable += (s, a) =>
                 {
@@ -82,11 +82,14 @@ namespace AudioRecorder
             wo.Stop();
         }
 
-        public void QuitRecording()
+        public void QuitRecording(bool isRecordSilence)
         {
             isRecording = false;
             capture.StopRecording();
-            QuitSine();
+            if (isRecordSilence)
+            {
+                QuitSine();
+            }
         }
 
         private void StartRecording()
