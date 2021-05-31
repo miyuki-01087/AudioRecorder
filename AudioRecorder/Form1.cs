@@ -19,7 +19,6 @@ namespace AudioRecorder
         {
             this.Text = "Recorder";
             InitializeComponent();
-            reco = new Record();
             label_folder.Text = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
 
@@ -29,13 +28,14 @@ namespace AudioRecorder
             {
                 btn_start.Text = "Start Recording";
                 is_recording = false;
-                reco.QuitRecording();
+                reco.QuitRecording(chk_silence.Checked);
                 chk_silence.Enabled = true;
             }
             else
             {
                 string filename = box_filename.Text;
                 btn_start.Text = "Stop Recording";
+                reco = new Record();
                 reco.setup(label_folder.Text, filename, chk_silence.Checked);
                 is_recording = true;
                 chk_silence.Enabled = false;
