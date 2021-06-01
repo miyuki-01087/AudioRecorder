@@ -8,6 +8,7 @@ using NAudio.Wave;
 using NAudio.CoreAudioApi;
 using System.Threading;
 using NAudio.Wave.SampleProviders;
+using System.Windows.Forms;
 
 namespace AudioRecorder
 {
@@ -22,7 +23,7 @@ namespace AudioRecorder
             capture = new WasapiLoopbackCapture();
         }
 
-        public void setup(string folderPath, string fileName, bool isRecordSilence)
+        public bool setup(string folderPath, string fileName, bool isRecordSilence)
         {
             if (isRecording)
             {
@@ -32,7 +33,15 @@ namespace AudioRecorder
             {
                 var outputFolder = Path.Combine(folderPath);
                 var outputFilePath = Path.Combine(outputFolder, fileName + ".wav");
-                var writer = new WaveFileWriter(outputFilePath, capture.WaveFormat);
+                WaveFileWriter writer = null;
+                try
+                {
+                    writer = new WaveFileWriter(outputFilePath, capture.WaveFormat);
+                }catch(DirectoryNotFoundException e)
+                {
+                    MessageBox.Show("Folder Path was invalid.");
+                    return false;
+                }
 
                 capture.DataAvailable += (s, a) =>
                 {
@@ -57,6 +66,7 @@ namespace AudioRecorder
                         StartSine();
                     });
                 }
+                return true;
             }
         }
 

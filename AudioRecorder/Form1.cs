@@ -19,7 +19,7 @@ namespace AudioRecorder
         {
             this.Text = "Recorder";
             InitializeComponent();
-            label_folder.Text = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            box_folder.Text = System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
 
         private void btn_start_Click(object sender, EventArgs e)
@@ -34,11 +34,14 @@ namespace AudioRecorder
             else
             {
                 string filename = box_filename.Text;
-                btn_start.Text = "Stop Recording";
                 reco = new Record();
-                reco.setup(label_folder.Text, filename, chk_silence.Checked);
-                is_recording = true;
-                chk_silence.Enabled = false;
+                bool is_succeeded = reco.setup(box_folder.Text, filename, chk_silence.Checked);
+                if (is_succeeded)
+                {
+                    btn_start.Text = "Stop Recording";
+                    is_recording = true;
+                    chk_silence.Enabled = false;
+                }
             }
         }
 
@@ -46,21 +49,19 @@ namespace AudioRecorder
         {
             CommonOpenFileDialog commonOpenFileDialog = new CommonOpenFileDialog();
 
-
             commonOpenFileDialog.Title = "フォルダを選択してください。";
             commonOpenFileDialog.InitialDirectory = @"C:";
             commonOpenFileDialog.IsFolderPicker = true;
 
-
             if (commonOpenFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                label_folder.Text = commonOpenFileDialog.FileName;
-            }
-            else
-            {
-                label_folder.Text = "キャンセルされました。";
+                box_folder.Text = commonOpenFileDialog.FileName;
             }
         }
-    
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
