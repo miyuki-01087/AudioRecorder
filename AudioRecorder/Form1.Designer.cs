@@ -29,6 +29,7 @@ namespace AudioRecorder
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btn_start = new System.Windows.Forms.Button();
             this.box_filename = new System.Windows.Forms.TextBox();
             this.btn_select_folder = new System.Windows.Forms.Button();
@@ -108,6 +109,7 @@ namespace AudioRecorder
             this.Controls.Add(this.box_filename);
             this.Controls.Add(this.btn_start);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(350, 350);
             this.Name = "Form1";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
